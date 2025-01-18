@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="warn" name="MyApp" packages="">
+   <Properties>
+    <!--<Property name="baseDir">logs</Property>-->
+  </Properties>
+    <Appenders>
+       
+        <RollingFile name="RollingFile" fileName="${sys:logfilename}.log"
+                     filePattern="${sys:logfilename}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <Pattern>%d{dd MMM yyyy HH:mm} %p %L %c{1} %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!--<OnStartupTriggeringPolicy/>-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+
+         <DefaultRolloverStrategy>
+                <Delete basePath="${sys:logfilename}/" maxDepth="1">
+                    <IfFileName glob="${sys:logfilename}-*-*.log" />
+                    <IfLastModified age="60d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+
+</RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <!--<AppenderRef ref="Mail" level="error" />-->
+            <AppenderRef ref="RollingFile"/>
+           
+        </Root>
+    </Loggers>
+</Configuration>
